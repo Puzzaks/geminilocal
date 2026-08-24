@@ -62,7 +62,9 @@ class PromptViewerPageState extends State<PromptViewerPage> {
                     ? engine.promptData.userPrompts[widget.promptId] ?? {}
                     : engine.promptData.defaultPrompts[widget.promptId] ?? {};
 
-                final String? description = isUserPrompt ? null : promptMeta["description"] as String?;
+                final String? description = isUserPrompt
+                    ? null
+                    : engine.promptData.getPromptDisplayDescription(widget.promptId, engine.dict.locale);
                 final String? author = isUserPrompt ? null : promptMeta["author"] as String?;
                 final String updatedStr = _formatTimestamp(promptMeta["updated"]);
 
@@ -76,7 +78,7 @@ class PromptViewerPageState extends State<PromptViewerPage> {
                       ),
                     ),
                     surfaceTintColor: Colors.transparent,
-                    title: Text(engine.promptData.getPromptName(widget.promptId)),
+                    title: Text(engine.promptData.getPromptDisplayName(widget.promptId, engine.dict.locale)),
                     actions: [
                       // Export button — always visible
                       IconButton(
@@ -121,7 +123,7 @@ class PromptViewerPageState extends State<PromptViewerPage> {
                       engine.currentChat = "testing";
                       engine.contextSize = 0;
                       engine.context.clear();
-                      engine.chats["testing"] = {"promptId": widget.promptId, "name": "Testing Prompt"};
+                      engine.chats["testing"] = {"promptId": widget.promptId, "name": engine.dict.value("try_prompt")};
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ChatPage(),

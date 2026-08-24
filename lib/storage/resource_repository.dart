@@ -10,6 +10,54 @@ class ResourceRepository {
 
   List<Map<String, dynamic>> resources = [];
 
+  static const Map<String, Map<String, String>> _localizedResourceNames = {
+    "zh-Hans": {
+      "Use AICore with root access": "Root 设备使用 AICore",
+      "Gemini Nano Availability": "Gemini Nano 可用性说明",
+      "Google ML Kit Guides": "Google ML Kit 指南",
+      "Original app idea": "原始应用灵感",
+      "Application's GitHub repository": "应用的 GitHub 仓库",
+      "Application's Google Store page": "应用的 Google Play 页面",
+      "Developer's Website": "开发者网站",
+    },
+    "zh": {
+      "Use AICore with root access": "在 Root 裝置上使用 AICore",
+      "Gemini Nano Availability": "Gemini Nano 可用性說明",
+      "Google ML Kit Guides": "Google ML Kit 指南",
+      "Original app idea": "原始應用程式靈感",
+      "Application's GitHub repository": "應用程式的 GitHub 儲存庫",
+      "Application's Google Store page": "應用程式的 Google Play 頁面",
+      "Developer's Website": "開發者網站",
+    },
+    "uk": {
+      "Use AICore with root access": "Використання AICore з root-доступом",
+      "Gemini Nano Availability": "Доступність Gemini Nano",
+      "Google ML Kit Guides": "Посібники Google ML Kit",
+      "Original app idea": "Оригінальна ідея додатка",
+      "Application's GitHub repository": "GitHub-репозиторій додатка",
+      "Application's Google Store page": "Сторінка додатка в Google Play",
+      "Developer's Website": "Сайт розробника",
+    },
+    "de": {
+      "Use AICore with root access": "AICore mit Root-Zugriff verwenden",
+      "Gemini Nano Availability": "Verfügbarkeit von Gemini Nano",
+      "Google ML Kit Guides": "Google ML Kit-Anleitungen",
+      "Original app idea": "Ursprüngliche App-Idee",
+      "Application's GitHub repository": "GitHub-Repository der App",
+      "Application's Google Store page": "Google Play-Seite der App",
+      "Developer's Website": "Website des Entwicklers",
+    },
+    "tr": {
+      "Use AICore with root access": "Root erişimiyle AICore kullan",
+      "Gemini Nano Availability": "Gemini Nano kullanılabilirliği",
+      "Google ML Kit Guides": "Google ML Kit kılavuzları",
+      "Original app idea": "Özgün uygulama fikri",
+      "Application's GitHub repository": "Uygulamanın GitHub deposu",
+      "Application's Google Store page": "Uygulamanın Google Play sayfası",
+      "Developer's Website": "Geliştiricinin web sitesi",
+    },
+  };
+
   ResourceRepository({required this.notifyEngine, this.logEvent});
 
   Future<void> initFromHive(String url) async {
@@ -63,5 +111,10 @@ class ResourceRepository {
       }
     }
     return out;
+  }
+
+  String getResourceDisplayName(Map<String, dynamic> resource, String locale) {
+    final name = resource["name"]?.toString() ?? "";
+    return _localizedResourceNames[locale]?[name] ?? name;
   }
 }
