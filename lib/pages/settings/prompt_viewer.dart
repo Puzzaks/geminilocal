@@ -154,7 +154,7 @@ class PromptViewerPageState extends State<PromptViewerPage> {
                       ),
                       if ((description != null && description.isNotEmpty) && (author != null && author.isNotEmpty) && updatedStr.isNotEmpty) ...[
                         SliverToBoxAdapter(
-                          child: text.info(
+                          child: TextBlocks.info(
                               title: "$description\n${engine.dict.value("by_author").replaceAll("%author%", author)}\n${engine.dict.value("prompt_last_updated")}: $updatedStr",
                               context: context,
                               subtitle: "",

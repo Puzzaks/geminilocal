@@ -8,9 +8,23 @@ class ResourceRepository {
   final VoidCallback notifyEngine;
   final Future<void> Function(String, String, String)? logEvent;
 
+  static const Map<String, String> _resourceValueOverrides = {
+    "Application's Google Store page": "https://play.google.com/store/apps/details?id=page.puzzak.paios",
+  };
+
   List<Map<String, dynamic>> resources = [];
 
   ResourceRepository({required this.notifyEngine, this.logEvent});
+
+  void _applyResourceOverrides() {
+    for (final resource in resources) {
+      final name = resource["name"]?.toString();
+      final value = _resourceValueOverrides[name];
+      if (value != null) {
+        resource["value"] = value;
+      }
+    }
+  }
 
   Future<void> initFromHive(String url) async {
     final box = Hive.box('paios_storage');
@@ -30,6 +44,7 @@ class ResourceRepository {
         );
       } catch (_) {}
     }
+    _applyResourceOverrides();
 
     // Step 3: Network refresh and cache update
     if (!kDebugMode) {
@@ -42,7 +57,8 @@ class ResourceRepository {
             (jsonDecode(response.body) as List).map((e) => Map<String, dynamic>.from(e)),
           );
           resources = fetched;
-          box.put("cached_resources_json", response.body);
+          _applyResourceOverrides();
+          box.put("cached_resources_json", jsonEncode(resources));
           notifyEngine();
         } else {
           if (logEvent != null) await logEvent!("resource_repo", "error", "Failed to fetch resources: ${response.statusCode}");
