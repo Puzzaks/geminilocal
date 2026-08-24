@@ -332,7 +332,7 @@ class ChatSettingsPageState extends State<ChatSettingsPage> {
                                   value: engine.chats[engine.currentChat]?["shareLocale"] ?? engine.shareLocale
                               ),
                             ]),
-                            text.info(
+                            TextBlocks.info(
                                 title: engine.dict.value("chat_settings_desc"),
                                 subtitle: engine.dict.value("chat_settings_subtitle"),
                                 action: (){

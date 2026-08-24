@@ -129,7 +129,7 @@ class PromptsPageState extends State<PromptsPage> {
                                     }
                                 )
                             ]),
-                            text.infoShort(
+                            TextBlocks.infoShort(
                                title: engine.dict.value("prompt_manager_info"),
                                subtitle: "",
                                action: () {},
